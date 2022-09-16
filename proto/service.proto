@@ -25,7 +25,9 @@ service AddService {
     rpc Set (KeyVal) returns (Empty);
 }
 
-
-
+service AddUserClientService{
+    rpc GetUserByID (Key) returns (Value);
+    rpc SetUser (KeyVal) returns (Empty);
+}
 
 

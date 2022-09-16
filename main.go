@@ -12,10 +12,16 @@ func main() {
 	// starting server in another go routine so that it wont block our code
 	go server.StartServer()
 
+	// starting Custom User Client server in another go routine so that it wont block our code
+	go server.StartUserClientServer()
+
 	time.Sleep(time.Millisecond * 5000)
 
-	// calling this method to test the client
+	// calling Test method to test the client
 	client.Test()
+
+	// calling Test method to test the Custom User client
+	client.TestCustomUserClient()
 
 	<-make(chan struct{})
 }

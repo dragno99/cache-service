@@ -139,3 +139,125 @@ var AddService_ServiceDesc = grpc.ServiceDesc{
 	Streams:  []grpc.StreamDesc{},
 	Metadata: "proto/service.proto",
 }
+
+// AddUserClientServiceClient is the client API for AddUserClientService service.
+//
+// For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
+type AddUserClientServiceClient interface {
+	GetUserByID(ctx context.Context, in *Key, opts ...grpc.CallOption) (*Value, error)
+	SetUser(ctx context.Context, in *KeyVal, opts ...grpc.CallOption) (*Empty, error)
+}
+
+type addUserClientServiceClient struct {
+	cc grpc.ClientConnInterface
+}
+
+func NewAddUserClientServiceClient(cc grpc.ClientConnInterface) AddUserClientServiceClient {
+	return &addUserClientServiceClient{cc}
+}
+
+func (c *addUserClientServiceClient) GetUserByID(ctx context.Context, in *Key, opts ...grpc.CallOption) (*Value, error) {
+	out := new(Value)
+	err := c.cc.Invoke(ctx, "/proto.AddUserClientService/GetUserByID", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *addUserClientServiceClient) SetUser(ctx context.Context, in *KeyVal, opts ...grpc.CallOption) (*Empty, error) {
+	out := new(Empty)
+	err := c.cc.Invoke(ctx, "/proto.AddUserClientService/SetUser", in, out, opts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+// AddUserClientServiceServer is the server API for AddUserClientService service.
+// All implementations must embed UnimplementedAddUserClientServiceServer
+// for forward compatibility
+type AddUserClientServiceServer interface {
+	GetUserByID(context.Context, *Key) (*Value, error)
+	SetUser(context.Context, *KeyVal) (*Empty, error)
+	mustEmbedUnimplementedAddUserClientServiceServer()
+}
+
+// UnimplementedAddUserClientServiceServer must be embedded to have forward compatible implementations.
+type UnimplementedAddUserClientServiceServer struct {
+}
+
+func (UnimplementedAddUserClientServiceServer) GetUserByID(context.Context, *Key) (*Value, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method GetUserByID not implemented")
+}
+func (UnimplementedAddUserClientServiceServer) SetUser(context.Context, *KeyVal) (*Empty, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SetUser not implemented")
+}
+func (UnimplementedAddUserClientServiceServer) mustEmbedUnimplementedAddUserClientServiceServer() {}
+
+// UnsafeAddUserClientServiceServer may be embedded to opt out of forward compatibility for this service.
+// Use of this interface is not recommended, as added methods to AddUserClientServiceServer will
+// result in compilation errors.
+type UnsafeAddUserClientServiceServer interface {
+	mustEmbedUnimplementedAddUserClientServiceServer()
+}
+
+func RegisterAddUserClientServiceServer(s grpc.ServiceRegistrar, srv AddUserClientServiceServer) {
+	s.RegisterService(&AddUserClientService_ServiceDesc, srv)
+}
+
+func _AddUserClientService_GetUserByID_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(Key)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AddUserClientServiceServer).GetUserByID(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AddUserClientService/GetUserByID",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AddUserClientServiceServer).GetUserByID(ctx, req.(*Key))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _AddUserClientService_SetUser_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(KeyVal)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(AddUserClientServiceServer).SetUser(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: "/proto.AddUserClientService/SetUser",
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(AddUserClientServiceServer).SetUser(ctx, req.(*KeyVal))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+// AddUserClientService_ServiceDesc is the grpc.ServiceDesc for AddUserClientService service.
+// It's only intended for direct use with grpc.RegisterService,
+// and not to be introspected or modified (even as a copy)
+var AddUserClientService_ServiceDesc = grpc.ServiceDesc{
+	ServiceName: "proto.AddUserClientService",
+	HandlerType: (*AddUserClientServiceServer)(nil),
+	Methods: []grpc.MethodDesc{
+		{
+			MethodName: "GetUserByID",
+			Handler:    _AddUserClientService_GetUserByID_Handler,
+		},
+		{
+			MethodName: "SetUser",
+			Handler:    _AddUserClientService_SetUser_Handler,
+		},
+	},
+	Streams:  []grpc.StreamDesc{},
+	Metadata: "proto/service.proto",
+}
