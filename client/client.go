@@ -13,6 +13,7 @@ import (
 func Test() {
 
 	conn, err := grpc.Dial("localhost:8080", grpc.WithInsecure())
+
 	if err != nil {
 		log.Fatal(err)
 	}
@@ -24,20 +25,23 @@ func Test() {
 	// testing Set method
 	req1 := &proto.KeyVal{
 		Key:   "suru",
-		Value: []byte("here"),
+		Value: []byte("hey suryansh here"),
 	}
 
 	_, err = client.Set(context.Background(), req1)
+
 	if err != nil {
-		fmt.Println("Response recieved by Set method:", err.Error())
+		fmt.Println("Error Response recieved by Set method:", err.Error())
 	}
 
 	// testing Get method
-	req2 := &proto.Key{Key: "suruIshere"}
-	res2, err := client.Get(context.Background(), req2)
-	if err != nil {
-		fmt.Println(err.Error())
-	}
-	fmt.Println("Response recieved by Get method:", string(res2.GetValue()))
+	req2 := &proto.Key{Key: "suru"}
 
+	res2, err := client.Get(context.Background(), req2)
+
+	if err != nil {
+		fmt.Println("Error Response recieved by Get method:", err.Error())
+	} else {
+		fmt.Println("Response recieved by Get method:", string(res2.GetValue()))
+	}
 }
